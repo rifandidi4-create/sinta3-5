@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sarang SINTA – Direktori Jurnal Berbentuk Sarang Lebah</title>
+<style>
+:root{--bg:#fff8e6;--bg2:#ffe9a8;--ink:#2b1d05;--mut:#7a6228;--card:#fffdf5;--acc:#f5a300;--acc2:#c76a00;--ln:#f0c04a;--sh:rgba(120,70,0,.25);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#17110a;--bg2:#2a1d06;--ink:#fff1cf;--mut:#d3b268;--card:#241a0b;--ln:#8a6410;--sh:rgba(0,0,0,.6)}}
+:root[data-theme="dark"]{--bg:#17110a;--bg2:#2a1d06;--ink:#fff1cf;--mut:#d3b268;--card:#241a0b;--ln:#8a6410;--sh:rgba(0,0,0,.6)}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(circle at 20% 0,var(--bg2),var(--bg) 60%);color:var(--ink);font-family:Georgia,'Times New Roman',serif;min-height:100vh;overflow-x:hidden}
+canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+main,header,footer{position:relative;z-index:1}
+.top{display:flex;justify-content:space-between;align-items:center;padding:14px 5vw;font-family:system-ui,sans-serif}
+.logo{font-weight:800;letter-spacing:.04em}.logo b{color:var(--acc)}
+button,.btn{font:inherit;font-family:system-ui,sans-serif;cursor:pointer;border:0;border-radius:99px;padding:9px 18px;background:linear-gradient(135deg,#ffc933,var(--acc2));color:#2b1400;font-weight:700;text-decoration:none;display:inline-block;box-shadow:0 6px 14px var(--sh);transition:.2s}
+button:hover,.btn:hover{transform:translateY(-2px) scale(1.03)}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:20px;align-items:center;padding:3vh 5vw 2vh;max-width:1200px;margin:auto}
+h1{font-size:clamp(2rem,5vw,3.6rem);line-height:1.05;margin:.2em 0}
+h1 span{background:linear-gradient(90deg,#ffb300,#d35400);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--mut);font-size:1.08rem;line-height:1.7}
+.hero svg{width:100%;max-width:420px;margin:auto;display:block;filter:drop-shadow(0 20px 25px var(--sh));animation:fl 6s ease-in-out infinite}
+@keyframes fl{50%{transform:translateY(-12px) rotate(2deg)}}
+.stats{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px}
+.stat{background:var(--card);border:1px solid var(--ln);border-radius:16px;padding:10px 16px;box-shadow:0 8px 18px var(--sh);font-family:system-ui,sans-serif}
+.stat b{display:block;font-size:1.6rem;color:var(--acc2)}.stat small{color:var(--mut)}
+.tools{max-width:1100px;margin:10px auto;padding:0 5vw;display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-family:system-ui,sans-serif}
+input,select{flex:1 1 220px;padding:11px 16px;border-radius:99px;border:2px solid var(--ln);background:var(--card);color:var(--ink);font:inherit;outline:0}
+input:focus,select:focus{border-color:var(--acc)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;width:100%}
+.chip{background:var(--card);color:var(--ink);border:1px solid var(--ln);box-shadow:none;padding:7px 14px;font-size:.85rem}
+.chip.on{background:linear-gradient(135deg,#ffc933,var(--acc2));color:#2b1400}
+#count{color:var(--mut);padding:6px 5vw;text-align:center;font-family:system-ui,sans-serif}
+#comb{padding:10px 2vw 40px;perspective:1200px}
+.row{display:flex;justify-content:center;gap:var(--g);margin-top:calc(var(--h)*-.245 + var(--g)*.3)}
+.row:first-child{margin-top:0}
+.hex{width:var(--w);height:var(--h);position:relative;transition:transform .25s;transform-style:preserve-3d;cursor:pointer;animation:pop .6s both}
+@keyframes pop{from{opacity:0;transform:scale(.5) rotate(-10deg)}}
+.hex .o,.hex .i{position:absolute;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)}
+.hex .o{inset:0;background:linear-gradient(135deg,#ffd75e,#c76a00);filter:drop-shadow(0 12px 10px var(--sh))}
+.hex .i{inset:4px;background:radial-gradient(circle at 30% 20%,var(--card),var(--bg2));display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:22% 12%;gap:4px;font-family:system-ui,sans-serif}
+.hex:hover .i{background:radial-gradient(circle at 30% 20%,#fff2b8,#ffc933);color:#2b1400}
+.hex .e{font-size:1.5rem}.hex .s{font-weight:800;font-size:.95rem;line-height:1.1}.hex .m{font-size:.68rem;color:var(--mut)}.hex:hover .m{color:#5a3500}
+.bd{background:var(--acc2);color:#fff;border-radius:99px;padding:1px 9px;font-size:.66rem;font-weight:700}
+.bd.q{background:#8a7a55}
+.empty{text-align:center;color:var(--mut);padding:40px}
+.mod{position:fixed;inset:0;z-index:10;background:rgba(20,10,0,.65);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:max(14px,env(safe-area-inset-top)) 14px max(14px,env(safe-area-inset-bottom));perspective:1400px}
+.mod.on{display:flex}
+.pan{background:var(--card);border:2px solid var(--ln);border-radius:28px;max-width:760px;width:100%;max-height:92vh;overflow:auto;padding:26px;box-shadow:0 30px 70px #000a;animation:zoom .45s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes zoom{from{opacity:0;transform:scale(.4) rotateX(40deg)}}
+.pan h2{margin:.1em 0}.pan .sub{color:var(--mut);font-family:system-ui,sans-serif}
+.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:16px 0;font-family:system-ui,sans-serif}
+.g div{background:var(--bg2);border-radius:14px;padding:10px 14px}.g small{color:var(--mut);display:block}.g b{word-break:break-word}
+.note{border-left:4px solid var(--acc);background:var(--bg2);padding:10px 14px;border-radius:10px;font-family:system-ui,sans-serif;font-size:.92rem;margin:10px 0}
+.acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.x{float:right;padding:6px 13px}
+.author{max-width:900px;margin:30px auto;padding:22px;border-radius:24px;background:var(--card);border:1px solid var(--ln);box-shadow:0 14px 30px var(--sh);text-align:center;line-height:1.7}
+footer{text-align:center;color:var(--mut);padding:10px 5vw 40px;font-size:.88rem;font-family:system-ui,sans-serif}
+@media(max-width:760px){.hero{grid-template-columns:1fr}.hero svg{max-width:260px;order:-1}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+</style></head><body>
+<canvas id="bg"></canvas>
+<header>
+<div class="top"><div class="logo">⬡ SARANG<b>SINTA</b></div><button id="th">🌓 Tema</button></div>
+<section class="hero">
+<div><small style="font-family:system-ui;color:var(--mut);letter-spacing:.2em">DIREKTORI JURNAL ILMIAH INDONESIA</small>
+<h1>Temukan jurnalmu di <span>Sarang Lebah</span> SINTA</h1>
+<p>Kumpulan 21 jurnal beserta ringkasan akreditasi SINTA, biaya publikasi (APC), jadwal terbit, ISSN, dan tautan resmi. Pilih satu heksagon untuk memperbesar dan membaca detail lengkapnya.</p>
+<div class="stats"><div class="stat"><b id="n1">0</b><small>Jurnal</small></div><div class="stat"><b id="n2">0</b><small>SINTA 3 terkonfirmasi</small></div><div class="stat"><b id="n3">0</b><small>Bidang ilmu</small></div></div></div>
+<svg viewBox="0 0 300 300" aria-label="Ilustrasi lebah dan sarang">
+<defs><linearGradient id="gg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe27a"/><stop offset="1" stop-color="#e08600"/></linearGradient></defs>
+<g stroke="#8a4b00" stroke-width="3" fill="url(#gg)"><polygon points="90,60 120,77 120,111 90,128 60,111 60,77"/><polygon points="150,60 180,77 180,111 150,128 120,111 120,77"/><polygon points="210,60 240,77 240,111 210,128 180,111 180,77"/><polygon points="120,112 150,129 150,163 120,180 90,163 90,129"/><polygon points="180,112 210,129 210,163 180,180 150,163 150,129"/><polygon points="150,164 180,181 180,215 150,232 120,215 120,181"/></g>
+<g transform="translate(150,215)"><ellipse rx="34" ry="24" fill="#ffc933" stroke="#2b1400" stroke-width="4"/><path d="M-10-22v44M8-22v44" stroke="#2b1400" stroke-width="9"/><ellipse cx="-14" cy="-30" rx="18" ry="26" fill="#bfe9ff" opacity=".8" transform="rotate(-25 -14 -30)"/><ellipse cx="12" cy="-30" rx="18" ry="26" fill="#bfe9ff" opacity=".8" transform="rotate(25 12 -30)"/><circle cx="-26" cy="-4" r="4" fill="#2b1400"/></g></svg>
+</section></header>
+<section class="tools"><input id="q" type="search" placeholder="🔎 Cari nama jurnal, penerbit, topik…" aria-label="Cari"><select id="so" aria-label="Urutkan"><option value="0">Urut: Nomor</option><option value="1">Nama A–Z</option><option value="2">APC termurah</option><option value="3">APC termahal</option></select><div class="chips" id="chips"></div></section>
+<div id="count"></div>
+<main><div id="comb"></div></main>
+<section class="author"><h3>🐝 Tentang Penyusun</h3><p>Disusun oleh <b>Muhammad Nur Rifandi</b>, siswa PKL dari <b>Al Muhtadin Depok</b>, sebagai siswa magang di bawah bimbingan <b>Pak Riadi Marta Dinata, S.Ti., M.Kom</b> (Kepala Laboratorium Komputer FSTT ISTN). Sumber rujukan: <a href="https://sinta.kemdiktisaintek.go.id/" target="_blank" rel="noopener" style="color:var(--acc2)">sinta.kemdiktisaintek.go.id</a>.</p></section>
+<footer>Data per 18 Oktober 2026. Informasi yang bertanda “belum terverifikasi” wajib dicek ulang di situs resmi jurnal sebelum mengirim naskah atau membayar APC.</footer>
+<div class="mod" id="mod"><div class="pan" id="pan"></div></div>
+<script>
+const CATS={ag:["🕌","Agama & Pendidikan Islam"],bh:["📖","Bahasa & Sastra"],pd:["🎓","Pendidikan & Teknologi"],sb:["📣","Sosial, Bisnis & Komunikasi"],ks:["🩺","Kesehatan & Peternakan"]};
+const NV="Belum terverifikasi";
+// [short,name,cat,publisher,issn,sinta,apcText,apcNum,freq,url,scope,note]
+const J=[
+["Al-Hikmah (AJAIP)","Al-Hikmah: Jurnal Agama dan Ilmu Pengetahuan","ag","UIR Press, Universitas Islam Riau","p 1412-5382 · e 2598-2168","SINTA 3","Reguler Rp1.000.000 · Fast-track Rp2.000.000",1000000,"2× setahun (April, Oktober)","https://journal.uir.ac.id/index.php/alhikmah/index","Pendidikan Islam, pendidikan bahasa Arab, ekonomi & bisnis Islam, hukum Islam, psikologi Islam, politik Islam, dan Islamisasi ilmu alam.","Data volume tidak konsisten (Vol. 32 vs Vol. 23, 2026). Bahasa artikel: Inggris dan Arab mulai Vol. 23 No. 1 2026. Scopus belum terverifikasi."],
+["Bidayatuna","Bidayatuna: Jurnal Pendidikan Guru Madrasah Ibtidaiyah","ag","LP3M, Institut Agama Islam Syarifuddin","p 2621-2153 · e 2715-0232","SINTA 3*","Submission Rp0 · Publikasi Rp750.000",750000,"2× setahun (April, Oktober)","https://ejournal.iaisyarifuddin.ac.id/index.php/bidayatuna","Pendidikan dasar Islam/MI: kurikulum, pedagogi, kompetensi guru, manajemen sekolah, inovasi pembelajaran.","*Profil SINTA menyebut SINTA 3, halaman jurnal menyebut peringkat 4: data tidak konsisten, konfirmasi SK akreditasi. Double-blind peer review. Verifikasi rekening pembayaran ke pengelola."],
+["JIE","Journal of Islamic Education (JIE)","ag","Belum terverifikasi","ISSN belum terverifikasi","SINTA belum terverifikasi","Submission gratis · APC Rp850.000 / USD 50 (berlaku 1 Feb 2025)",850000,"Belum terverifikasi","https://ejournal.letiges.or.id/index.php/jie","Pendidikan Islam, bahasa Arab, kurikulum, Al-Qur’an & Hadis, sejarah, tasawuf, pemikiran dan budaya Islam.","Open access. Peringkat SINTA, ISSN, penerbit, dan frekuensi belum terverifikasi. Kontak: jieletiges@gmail.com."],
+["HALAQA","Halaqa: Islamic Education Journal","ag","Universitas Muhammadiyah Sidoarjo (UMSIDA)","p 1412-9302 · e 2503-5045","SINTA 3","APC Rp850.000 (bayar maks. 3 hari setelah accepted)",850000,"2× setahun (Juni, Desember)","https://halaqa.umsida.ac.id/index.php/halaqa","Metode & strategi pembelajaran PAI, kurikulum, kepemimpinan dan manajemen pendidikan Islam, pesantren, kebijakan, integrasi Islam-sains.","Edisi terbaru di arsip: Vol. 10 No. 2 (Des 2026). Kontak: halaqa@umsida.ac.id. Scopus belum terverifikasi."],
+["English Franca","English Franca: Academic Journal of English Language and Education","bh","IAIN Curup","p 2580-3670 · e 2580-3689","SINTA 3","Tanpa APC · Proofreading Rp1.000.000",1000000,"2× setahun (Mei, November)","https://journal.iaincurup.ac.id/index.php/english/index","Linguistik terapan, ELT, sastra Inggris, ESP, asesmen bahasa, penerjemahan, SLA, dan ICT dalam pembelajaran.","Double-blind. Review ±3–4 bulan; publikasi ±3 bulan–1 tahun. Terindeks (klaim situs): DOAJ, Crossref, Garuda, dll."],
+["BAHASA","Bahasa: Jurnal Keilmuan Pendidikan Bahasa dan Sastra Indonesia","bh","PPJB-SIP & IKAPROBSI","e 2685-4147","SINTA 3 (s.d. 2028)","Reguler Rp1.500.000 / USD 100 · Conference Track Rp2.000.000 / USD 120",1500000,"3× setahun (Apr–Mei, Agu–Sep, Des–Jan)","https://jurnal.ppjb-sip.org/index.php/bahasa/index","Pendidikan bahasa & sastra Indonesia, linguistik, BIPA/UKBI, literasi, penerjemahan, digitalisasi sastra.","Artikel wajib berbahasa Inggris (British English). Waspada pemalsuan LoA dan OJS duplikat; submit hanya lewat situs resmi."],
+["Mantiqu Tayr","Mantiqu Tayr: Journal of Arabic Language","bh","Universitas Ma’arif Lampung (UMALA)","e 2774-6372","SINTA 3","APC Rp2.000.000 / USD 120 · Fast-track Rp3.000.000",2000000,"2× setahun (Januari, Juli)","https://journal.iaimnumetrolampung.ac.id/index.php/mantiqutayr","Pendidikan bahasa Arab, strategi dan teknologi pengajaran, mikro/makrolinguistik, linguistik komparatif.","Konfirmasi apakah biaya fast-track sudah termasuk APC. Double-blind. Terbitan terbaru: Vol. 6 No. 2 (31 Juli 2026)."],
+["JoPR","Journal of Pragmatics Research","bh","UIN Salatiga","e 2656-8020","SINTA 3 (SK 177/E/KPT/2024)","APC Rp1.500.000 / USD 100 (sejak Maret 2026)",1500000,"3× setahun (Feb, Juli, Okt)","https://ejournal.uinsalatiga.ac.id/index.php/jopr/index","Pragmatik, sosiopragmatik, sosiolinguistik, analisis wacana, pragmatik dalam ELT.","Naskah wajib berbahasa Inggris. Deadline edisi Okt 2026 (15 Sep) sudah lewat. Double-blind; DOAJ dinyatakan jurnal."],
+["Fonologi","Fonologi: Jurnal Ilmuan Bahasa dan Sastra Inggris","bh","Asosiasi Periset Bahasa Sastra Indonesia (identitas penerbit perlu dikonfirmasi)","p 3025-5996 · e 3025-6003","SINTA 3 (s.d. 2028)","APC Rp1.500.000 (hanya lewat rekening resmi)",1500000,"4× setahun (Mar, Jun, Sep, Des)","https://journal.aspirasi.or.id/index.php/Fonologi","Linguistik, sastra Indonesia & daerah, serta bahasa asing.","Pembayaran di luar rekening resmi dinyatakan ilegal oleh jurnal. Edisi terbaru: Vol. 4 No. 3 (Sep 2026)."],
+["JPTI","Jurnal Pendidikan dan Teknologi Indonesia","pd","Belum terverifikasi","p 2775-4227 · e 2775-4219","SINTA tercantum, peringkat belum terverifikasi","Submission gratis · Publikasi Rp300.000",300000,"Bulanan (12 edisi/tahun)","https://jpti.journals.id/index.php/jpti","Pendidikan, teknologi, dan keteknikan: informatika, elektro, sipil, mesin, PTK, PAUD, pendidikan inklusi.","Peringkat SINTA terkini, proses review, dan bahasa belum terverifikasi."],
+["Anargya","Anargya: Jurnal Ilmiah Pendidikan Matematika","pd","Pendidikan Matematika FKIP, Universitas Muria Kudus","p 2615-4196 · e 2615-4072","SINTA 3","Submission Rp0 · Publikasi Rp750.000",750000,"2× setahun (April, Oktober)","https://jurnal.umk.ac.id/index.php/anargya/index","Pendidikan matematika: pembelajaran, kurikulum, lingkungan belajar, pendidikan guru, teknologi pendidikan.","Open access; review minimal dua reviewer. Biaya fast-track: hubungi Editor-in-Chief."],
+["Lectura","Lectura: Jurnal Pendidikan","pd","Universitas Lancang Kuning (FKIP)","p 2086-4876 · e 2549-063X","SINTA 3 (s.d. 2030)","Submission gratis · APC US$50",50*16500,"2× setahun (Februari, Agustus)","https://journal.unilak.ac.id/index.php/lectura","Pendidikan: ELT, pendidikan biologi, PAUD, dan disiplin pendidikan lain.","Artikel ±5.000–6.000 kata; abstrak ID+EN maks. 250 kata. Urutan APC memakai kurs perkiraan."],
+["Potensia","Jurnal Ilmiah Potensia","pd","Universitas Bengkulu","p 2527-9270 · e 2621-2382","SINTA belum terverifikasi","Submission Rp0 · APC Rp750.000",750000,"Belum terverifikasi","https://ejournal.unib.ac.id/index.php/potensia","Pendidikan anak usia dini (PAUD) usia lahir–8 tahun: perkembangan anak, kurikulum, pembelajaran, pendidikan guru PAUD.","Penting: jurnal ini fokus PAUD, bukan pendidikan Islam. Keterangan biaya pengiriman tampak tidak konsisten, cek halaman resmi."],
+["IJoRCE","International Journal of Research and Community Empowerment","pd","PT Mitra Edukasi dan Publikasi","e 2985-6175","SINTA 3","Submission Rp50.000 · APC Rp200.000–Rp900.000 (tergantung afiliasi) · gratis untuk seluruh penulis internasional",200000,"2× setahun (Februari, Agustus)","https://journal.edupartnerpublishing.co.id/index.php/ijorce","Pendidikan berbasis SDGs, sains, ilmu sosial, inovasi pembelajaran, kearifan lokal, pemberdayaan masyarakat.","Naskah berbahasa Inggris, minimal dua penulis, double-blind. Mengumumkan indeksasi DOAJ (18 Agu 2026)."],
+["Amalee","Amalee: Indonesian Journal of Community Research and Engagement","sb","LP2M INSURI Ponorogo & AJPKM","p 2715-7997 · e 2716-0750","SINTA 3","Submission Rp0 · Publikasi Rp1.500.000 / USD 150",1500000,"2× setahun (April, Oktober)","https://ejournal.insuriponorogo.ac.id/index.php/amalee/index","Pengabdian & pemberdayaan masyarakat, ABCD, PAR, CBR, service learning, teknologi tepat guna.","Kode SK akreditasi ditulis berbeda di dua halaman (CE vs C3): konfirmasi dokumen resmi."],
+["BASKARA","BASKARA: Journal of Business and Entrepreneurship","sb","Center for Borderland and Coastal Studies, Universitas Muhammadiyah Jakarta","e 2623-0089","SINTA 3 (SK 72/E/KPT/2024)","Submission Rp0 · Publikasi Rp900.000 / USD 55",900000,"2× setahun (April, Oktober)","https://jurnal.umj.ac.id/index.php/baskara/index","Bisnis & kewirausahaan, UMKM, bisnis digital, kewirausahaan sosial, keberlanjutan, pemasaran.","Double-blind, review maks. ±2 bulan. Tersedia kebijakan keringanan biaya (konfirmasi ke editor)."],
+["Wacana","Wacana: Jurnal Ilmiah Ilmu Komunikasi","sb","Pusat Penelitian FIKOM, Universitas Prof. Dr. Moestopo (Beragama)","p 1412-7873 · e 2598-7402","SINTA 3 (SK 204/E/KPT/2022)","Submission gratis · Publikasi Rp750.000",750000,"2× setahun (Juni, Desember)","https://journal.moestopo.ac.id/index.php/wacana","Ilmu komunikasi: PR, media & jurnalistik, periklanan, komunikasi digital, komunikasi politik dan sosial.","Periode akreditasi yang disebut s.d. Vol. 25 No. 1 (2026): cek SINTA untuk status terbaru. Double-blind; lisensi CC BY-NC-SA 4.0."],
+["JRJMD","Jurnal Riset Jurnalistik dan Media Digital","sb","UPT Publikasi Ilmiah, Universitas Islam Bandung","p 2808-3067 · e 2798-6403","SINTA 3","Awal Rp300.000 + Publikasi Rp500.000 = Rp800.000 (sejak Juli 2026)",800000,"2× setahun (Juli, Desember)","https://journals.unisba.ac.id/index.php/JRJMD","Jurnalistik cetak, elektronik & online, fotografi jurnalistik, multimedia, manajemen media, etika pers.","Double-blind, minimal dua mitra bestari. Tarif baru berlaku mulai Vol. 6 No. 1."],
+["JSPI","Jurnal Sain Peternakan Indonesia","ks","Badan Penerbitan Fakultas Pertanian, Universitas Bengkulu","p 1978-3000 · e 2528-7109","SINTA 3","Submission gratis · APC Rp750.000",750000,"4× setahun (Mar, Jun, Sep, Des)","https://ejournal.unib.ac.id/index.php/jspi","Peternakan, zoologi, kedokteran hewan, kesejahteraan hewan, sosial-ekonomi peternakan.","Full open access, lisensi CC BY-SA 4.0. Indeksasi DOAJ perlu dicek aktif/tidaknya."],
+["JTKB","Jurnal Teknologi Kesehatan Borneo","ks","Poltekkes Kemenkes Pontianak","p 2723-3790 · e 2723-3782","SINTA 3","Submission gratis · APC Rp1.000.000 (setelah accepted)",1000000,"2× setahun (Juni, Desember)","https://jtkbjournal.org/index.php/jtkb/","Kesehatan terapan lahan gambut: kesehatan lingkungan, gizi, gigi & mulut, TLM, kebidanan, keperawatan.","Artikel 10–12 halaman, abstrak Inggris maks. 200 kata, double-blind."],
+["UMI Medical Journal","UMI Medical Journal (UMJ)","ks","Fakultas Kedokteran, Universitas Muslim Indonesia, Makassar","p 2548-4079 · e 2685-7561","SINTA belum terverifikasi","Submission gratis · APC Rp1.000.000",1000000,"2× setahun (Juni, Desember)","https://jurnal.fk.umi.ac.id/index.php/umimedicaljournal","Kedokteran & kesehatan: gizi, obstetri-ginekologi/onkologi, biomedis, penelitian klinis, kesehatan masyarakat.","Naskah wajib berbahasa Inggris sejak Vol. 10 No. 2. Verifikasi rekening transfer lewat kontak resmi."]
+].map((a,i)=>({id:i+1,s:a[0],n:a[1],c:a[2],pub:a[3],issn:a[4],sinta:a[5],apc:a[6],num:a[7],freq:a[8],url:a[9],scope:a[10],note:a[11]}));
+const $=s=>document.querySelector(s);let cat="all";
+// stats
+function count(el,t){let v=0;const k=setInterval(()=>{v++;el.textContent=v;if(v>=t)clearInterval(k)},60)}
+count($("#n1"),J.length);count($("#n2"),J.filter(j=>/^SINTA 3( |$|\*)/.test(j.sinta)&&!j.sinta.includes("*")).length);count($("#n3"),Object.keys(CATS).length);
+// chips
+const ch=$("#chips");
+[["all","🐝","Semua"],...Object.entries(CATS).map(([k,v])=>[k,v[0],v[1]])].forEach(([k,e,l])=>{const b=document.createElement("button");b.className="chip"+(k==="all"?" on":"");b.textContent=e+" "+l;b.onclick=()=>{cat=k;document.querySelectorAll(".chip").forEach(x=>x.classList.remove("on"));b.classList.add("on");render()};ch.appendChild(b)});
+function list(){const q=$("#q").value.toLowerCase().trim();let r=J.filter(j=>(cat==="all"||j.c===cat)&&(!q||(j.n+j.s+j.pub+j.scope+j.issn).toLowerCase().includes(q)));const s=$("#so").value;
+if(s==="1")r.sort((a,b)=>a.s.localeCompare(b.s));if(s==="2")r.sort((a,b)=>a.num-b.num);if(s==="3")r.sort((a,b)=>b.num-a.num);return r}
+function render(){const r=list(),box=$("#comb");box.innerHTML="";
+$("#count").textContent=r.length+" dari "+J.length+" jurnal ditampilkan";
+if(!r.length){box.innerHTML='<div class="empty">🐝 Tidak ada jurnal yang cocok. Coba kata kunci lain.</div>';return}
+const W=Math.min(box.clientWidth||innerWidth,1180),w=innerWidth<500?150:178,g=6,h=Math.round(w*1.1547);
+box.style.setProperty("--w",w+"px");box.style.setProperty("--h",h+"px");box.style.setProperty("--g",g+"px");
+const c=Math.max(2,Math.floor((W+g)/(w+g)));let i=0,rowN=0;
+while(i<r.length){const n=rowN%2?c-1:c,row=document.createElement("div");row.className="row";
+r.slice(i,i+n).forEach((j,k)=>{const d=document.createElement("div");d.className="hex";d.style.animationDelay=(i+k)*50+"ms";d.tabIndex=0;d.setAttribute("role","button");d.setAttribute("aria-label","Buka detail "+j.s);
+const v=j.sinta.startsWith("SINTA 3")&&!j.sinta.includes("*");
+d.innerHTML='<div class="o"></div><div class="i"><div class="e">'+CATS[j.c][0]+'</div><div class="s">'+j.s+'</div><span class="bd'+(v?"":" q")+'">'+(v?"SINTA 3":"cek status")+'</span><div class="m">'+(j.num>=1000000?"Rp"+(j.num/1e6)+" jt":"Rp"+Math.round(j.num/1000)+" rb")+'</div></div>';
+d.onclick=()=>open(j);d.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();open(j)}};
+d.onmousemove=e=>{const b=d.getBoundingClientRect(),x=(e.clientX-b.left)/b.width-.5,y=(e.clientY-b.top)/b.height-.5;d.style.transform="rotateY("+x*30+"deg) rotateX("+-y*30+"deg) scale(1.1)"};d.onmouseleave=()=>d.style.transform="";
+row.appendChild(d)});box.appendChild(row);i+=n;rowN++}}
+function open(j){const sub=j.url.replace(/\/index$/,"").replace(/\/$/,"")+"/about/submissions",st="https://sinta.kemdiktisaintek.go.id/journals?q="+encodeURIComponent(j.n);
+$("#pan").innerHTML='<button class="x" onclick="closeM()" aria-label="Tutup">✕</button><div style="font-size:2.2rem">'+CATS[j.c][0]+'</div><h2>'+j.n+'</h2><div class="sub">'+CATS[j.c][1]+' · '+j.pub+'</div>'+
+'<div class="g"><div><small>Akreditasi</small><b>'+j.sinta+'</b></div><div><small>ISSN</small><b>'+j.issn+'</b></div><div><small>Biaya (APC)</small><b>'+j.apc+'</b></div><div><small>Frekuensi terbit</small><b>'+j.freq+'</b></div><div><small>Scopus / Quartile</small><b>'+NV+'</b></div></div>'+
+'<p style="line-height:1.7"><b>Ruang lingkup:</b> '+j.scope+'</p><div class="note">📌 '+j.note+'</div>'+
+'<div class="acts"><a class="btn" href="'+j.url+'" target="_blank" rel="noopener">🌐 Situs Jurnal</a><a class="btn" href="'+sub+'" target="_blank" rel="noopener">✍️ Submission</a><a class="btn" href="'+st+'" target="_blank" rel="noopener">🔎 Cari di SINTA</a></div>';
+$("#mod").classList.add("on");document.body.style.overflow="hidden"}
+function closeM(){$("#mod").classList.remove("on");document.body.style.overflow=""}
+$("#mod").onclick=e=>{if(e.target.id==="mod")closeM()};addEventListener("keydown",e=>{if(e.key==="Escape")closeM()});
+$("#q").oninput=render;$("#so").onchange=render;let rt;addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(render,150)});
+$("#th").onclick=()=>{const d=document.documentElement,dark=d.dataset.theme?d.dataset.theme==="dark":matchMedia("(prefers-color-scheme:dark)").matches;d.dataset.theme=dark?"light":"dark";bgc()};
+render();
+// background: drifting hexagons + bees
+const cv=$("#bg"),cx=cv.getContext("2d");let P=[];
+function bgc(){}
+function rs(){cv.width=innerWidth;cv.height=innerHeight;P=Array.from({length:Math.min(34,Math.floor(innerWidth/38))},()=>({x:Math.random()*cv.width,y:Math.random()*cv.height,r:14+Math.random()*34,s:.2+Math.random()*.6,a:Math.random()*6,v:(Math.random()-.5)*.01}))}
+function hx(x,y,r,a){cx.beginPath();for(let i=0;i<6;i++){const t=a+i*Math.PI/3;cx.lineTo(x+r*Math.cos(t),y+r*Math.sin(t))}cx.closePath()}
+function loop(){cx.clearRect(0,0,cv.width,cv.height);P.forEach(p=>{p.y-=p.s;p.a+=p.v;p.x+=Math.sin(p.y/60)*.3;if(p.y<-60){p.y=cv.height+60;p.x=Math.random()*cv.width}
+hx(p.x,p.y,p.r,p.a);cx.fillStyle="rgba(255,190,40,.10)";cx.fill();cx.strokeStyle="rgba(230,150,0,.35)";cx.lineWidth=1.5;cx.stroke()});requestAnimationFrame(loop)}
+addEventListener("resize",rs);rs();loop();
+</script></body></html>
